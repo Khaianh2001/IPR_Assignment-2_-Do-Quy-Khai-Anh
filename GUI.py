@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
-import function
+import image_filter
 
 class ImageFilterGUI(tk.Tk):
     def __init__(self):
@@ -12,8 +12,9 @@ class ImageFilterGUI(tk.Tk):
         self.filter_type_var.set("low-pass")
 
         self.cutoff_var = tk.StringVar()
-        self.cutoff_var.set("50")  
-        
+        self.cutoff_var.set("50")  # Default cutoff frequency
+
+        # GUI components
         label = tk.Label(self, text="Choose Filter Type:")
         label.pack()
 
@@ -32,14 +33,15 @@ class ImageFilterGUI(tk.Tk):
         open_button = tk.Button(self, text="Open Image", command=self.open_image)
         open_button.pack()
 
+
     def open_image(self):
         file_path = filedialog.askopenfilename()
         if file_path:
-            filtered_image = function.apply_filter(file_path, self.filter_type_var.get(), int(self.cutoff_var.get()))
+            filtered_image = image_filter.apply_filter(file_path, self.filter_type_var.get(), int(self.cutoff_var.get()))
             self.show_image(filtered_image)
 
     def show_image(self, image):
-        
+        # Display the image
         image = Image.fromarray(image)
         photo = ImageTk.PhotoImage(image)
         label = tk.Label(self, image=photo)
